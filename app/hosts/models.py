@@ -1,0 +1,52 @@
+from django.db import models
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+from address.models import Prefecture, City, Address
+
+# Create your models here.
+class Host(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='owner')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
+
+    class Meta:
+        db_table = 'hosts'
+
+    def __str__(self):
+        return "{}: {}".format(self.pk, self.user)
+        
+
+
+class Place(models.Model):
+    class TimeFrame(models.IntegerChoices):
+        QUARTER = 15
+        HALF = 30
+        THREE_QUARTER = 45
+        HOUR = 60
+    
+
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(_("Place Title"), null=False, max_length=400)
+    body = models.CharField(_("Place Body"), max_length=1000)
+    host = models.ForeignKey(Host, related_name='place', on_delete=models.CASCADE, verbose_name="所有者")
+
+    postal_code = models.IntegerField(blank=True, null=True, verbose_name="郵便番号")
+    prefecture = models.OneToOneField(Prefecture, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="都道府県")
+    city = models.OneToOneField(City, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="市町村")
+    address = models.OneToOneField(Address, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="番地など")
+
+    address1 = models.CharField(_("address1"), max_length=500, null=True)
+    address2 = models.CharField(_("address2"), max_length=500, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Phone")
+
+    time_frame = models.IntegerField(choices=TimeFrame.choices, default=60)
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
+
+    class Meta:
+        db_table = 'places'
+
+    def __str__(self):
+        return "{}: {}".format(self.pk, self.user)
