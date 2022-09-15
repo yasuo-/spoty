@@ -1,4 +1,5 @@
 from django.db import models
+from django.core import validators
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from address.models import Prefecture, City, Address
@@ -49,4 +50,27 @@ class Place(models.Model):
         db_table = 'places'
 
     def __str__(self):
-        return "{}: {}".format(self.pk, self.user)
+        return "{}: {}".format(self.pk, self.title)
+
+        
+class PlaceItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(_("Place Item"), null=False, max_length=400)
+    place = models.ForeignKey(Place, related_name='place_item', on_delete=models.CASCADE, verbose_name="場所")
+    price_per_time_frame = models.IntegerField(
+        verbose_name='時間枠あたりの料金',
+        blank=True,
+        null=True,
+        default=0,
+        validators=[validators.MinValueValidator(0),
+                    validators.MaxValueValidator(10000)]
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
+
+    class Meta:
+        db_table = 'place_items'
+
+    def __str__(self):
+        return "{}: {}".format(self.pk, self.name)
