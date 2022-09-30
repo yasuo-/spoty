@@ -1,0 +1,43 @@
+{% block content_block %}
+<div class="jumbotron">
+  <h2>会社詳細</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">会社名</th>
+        <th scope="col">業界</th>
+        <th scope="col">提供者</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>{{ place_detail.title }}</td>
+        <td>{{ place_detail.body }}</td>
+        <td>{{ place_detail.host.user.username }}</td>
+      </tr>
+    <tbody>
+  </table>
+
+
+  <h2>この店舗のitem</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">名前</th>
+      <th scope="col">時間枠あたりの料金</th>
+ <th scope="col">id</th>
+  </tr>
+</thead>
+  <tbody>
+      {% for item in place_detail.place_item.all %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.price_per_time_frame }}</td>
+        <a href="{{ item.pk }}">詳細</a>
+      </tr>
+      {% endfor %}
+  <tbody>
+</table>
+</div>
+
+{% endblock %}

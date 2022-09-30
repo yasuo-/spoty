@@ -1,0 +1,21 @@
+{% block content_block %}
+
+<h2>予定一覧</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>店舗名</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in booking_list %}
+    <tr>
+      <td>{{ item.place.title }}</td>
+      <td><a href="{% url 'bookings:booking_detail' item.pk %}">詳細</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

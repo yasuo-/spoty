@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-3">
+        <p>名前</p>
+    </div>
+    <div class="col-9">
+        <p>{{ item.title }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <p>備考</p>
+    </div>
+    <div class="col-9">
+        <p>{{ item.body|linebreaksbr }}</p>
+    </div>
+</div>
+ postal_code = models.IntegerField(blank=True, null=True, verbose_name="郵便番号")
+    prefecture = models.OneToOneField(Prefecture, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="都道府県")
+    city = models.OneToOneField(City, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="市町村")
+    address = models.OneToOneField(Address, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="番地など")
+
+    address1 = models.CharField(_("address1"), max_length=500, null=True)
+    address2 = models.CharField(_("address2"), max_length=500, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Phone")
+
+    time_frame = models.IntegerField(choices=TimeFrame.choices, default=60)
+<div class="row">
+    <div class="col-3">
+        <p>年齢</p>
+    </div>
+    <div class="col-9">
+        <p>{{ item.postal_code }}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <p>性別</p>
+    </div>
+    <div class="col-9">
+        <p>{{ item.prefecture }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <p>性別</p>
+    </div>
+    <div class="col-9">
+        <p>{{ item.time_frame }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <p>登録日</p>
+    </div>
+    <div class="col-9">
+        <p>{{ item.created_at|date:"Y/m/d G:i:s" }}</p>
+    </div>
+</div>

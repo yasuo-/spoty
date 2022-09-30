@@ -13,7 +13,7 @@ User = get_user_model()
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User
-    slug_field = ["name", "first_name", "last_name", "email"]
+    slug_field = "username"
     slug_url_kwarg = "username"
 
 

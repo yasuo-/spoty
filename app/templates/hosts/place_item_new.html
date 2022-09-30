@@ -16,9 +16,9 @@
         <p class="text-muted">His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table.</p>
         <p class="text-muted mb-5">Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame.</p>
 
-        <form class="form-horizontal" method="post" action="{% url 'hosts:place_create' %}">
+        <form class="form-horizontal" method="post" action="{% url 'hosts:place_item_create' %}">
           {% csrf_token %}
-          <input type="hidden" name="host" required value="{{ host.id }}">
+          <input type="hidden" name="place" required value="">
           {{ form|crispy }}
           <div class="control-group">
             <div class="controls">
