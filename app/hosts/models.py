@@ -2,21 +2,30 @@ from django.db import models
 from django.core import validators
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from address.models import Prefecture, City, Address
+from app.address.models import Prefecture, City, Address
+from django.urls import reverse
 
-# Create your models here.
+
 class Host(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='owner')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
 
+    def get_absolute_url(self):
+        """Get url for user's detail view.
+
+        Returns:
+            str: URL for user detail.
+
+        """
+        return reverse("hosts:place_create", kwargs={"host": self.id})
+
     class Meta:
         db_table = 'hosts'
 
     def __str__(self):
         return "{}: {}".format(self.pk, self.user)
-        
 
 
 class Place(models.Model):
@@ -25,7 +34,6 @@ class Place(models.Model):
         HALF = 30
         THREE_QUARTER = 45
         HOUR = 60
-    
 
     id = models.AutoField(primary_key=True)
     title = models.CharField(_("Place Title"), null=False, max_length=400)
@@ -42,7 +50,7 @@ class Place(models.Model):
     phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Phone")
 
     time_frame = models.IntegerField(choices=TimeFrame.choices, default=60)
-    
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
 
@@ -52,7 +60,7 @@ class Place(models.Model):
     def __str__(self):
         return "{}: {}".format(self.pk, self.title)
 
-        
+
 class PlaceItem(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(_("Place Item"), null=False, max_length=400)
@@ -65,7 +73,7 @@ class PlaceItem(models.Model):
         validators=[validators.MinValueValidator(0),
                     validators.MaxValueValidator(10000)]
     )
-    
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
 

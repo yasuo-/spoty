@@ -1,0 +1,16 @@
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">© .... Co. Ltd. <span id="current-year"></span></span>
+  </div>
+</footer>
+
+<style>
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+</style>
+<script>
+  document.getElementById("current-year").innerText = new Date().getFullYear();
+</script>

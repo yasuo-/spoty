@@ -280,7 +280,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -293,6 +293,12 @@ ACCOUNT_FORMS = {"signup": "app.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "app.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
 SOCIALACCOUNT_FORMS = {"signup": "app.users.forms.UserSocialSignupForm"}
+# 自動でアカウントのセッションを保持(いちいちユーザーネームとパスワードを要求しない)
+ACCOUNT_SESSION_REMEMBER = True
+# ユーザー登録時にパスワードの要求を一回にする
+# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+# ログアウトをクリックしたらログアウト確認画面を経由しないで直接ログアウト
+ACCOUNT_LOGOUT_ON_GET = True
 
 
 # Your stuff...

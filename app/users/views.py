@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
+
+from .forms import UserEditMultiForm
 
 User = get_user_model()
 
@@ -11,7 +13,7 @@ User = get_user_model()
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User
-    slug_field = "username"
+    slug_field = ["name", "first_name", "last_name", "email"]
     slug_url_kwarg = "username"
 
 
@@ -21,8 +23,18 @@ user_detail_view = UserDetailView.as_view()
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     model = User
-    fields = ["name"]
-    success_message = _("Information successfully updated")
+    form_class = UserEditMultiForm
+    success_message = _("更新しました")
+    # success_url = reverse_lazy('home')
+
+    def get_form_kwargs(self):
+        kwargs = super(UserUpdateView, self).get_form_kwargs()
+        kwargs.update(instance={
+            'avatar': self.object.avatar,
+            'user': self.object,
+            'profile': self.object.profile,
+        })
+        return kwargs
 
     def get_success_url(self):
         assert (

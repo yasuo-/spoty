@@ -16,6 +16,8 @@ urlpatterns = [
     path("users/", include("app.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    # path("bookings/", include("app.bookings.urls", namespace="bookings"))
+    path("hosts/", include("app.hosts.urls", namespace="hosts"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

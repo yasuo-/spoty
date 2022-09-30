@@ -1,8 +1,10 @@
 from django.db import models
 from django.core import validators
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from django.contrib.auth import get_user_model
-from hosts.models import Place, PlaceItem
+
+from app.hosts.models import Place, PlaceItem
 
 
 class Booking(models.Model):
@@ -44,7 +46,7 @@ class BookingStatus(models.Model):
 
     def __str__(self):
         return "{}: {}".format(self.booking, self.status)
-        
+
 
 class BookingPrice(models.Model):
     """BookingPrice
@@ -67,7 +69,7 @@ class BookingCheckIn(models.Model):
     """
     id = models.AutoField(primary_key=True)
     booking = models.OneToOneField(Booking, related_name='booking_checkin', on_delete=models.CASCADE, verbose_name="予約ID")
-    checkin = models.DateTimeField(verbose_name="入店時間")
+    checkin = models.DateTimeField(verbose_name="入店時間", default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -83,7 +85,7 @@ class BookingCheckOut(models.Model):
     """
     id = models.AutoField(primary_key=True)
     booking = models.OneToOneField(Booking, related_name='booking_checkout', on_delete=models.CASCADE, verbose_name="予約ID")
-    checkout = models.DateTimeField(verbose_name="当日のチェックアウト")
+    checkout = models.DateTimeField(verbose_name="当日のチェックアウト", default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
