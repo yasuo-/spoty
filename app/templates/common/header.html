@@ -5,7 +5,7 @@
         <div class="container-fluid">
           <div class="d-flex align-items-center">
             <a class="navbar-brand py-1" href="{% url 'home' %}">
-              <img src="img/logo.svg" alt="Directory logo">
+              <img src="{% static 'images/logo.svg' %}" alt="Directory logo">
             </a>
           </div>
 
@@ -21,10 +21,10 @@
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{% translate "My Profile" %}</a>
+                  <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">マイページ</a>
                 </li>
                 <li class="nav-item mt-3 mt-lg-0 ms-lg-3 d-lg-none d-xl-inline-block">
-                  <a class="btn btn-primary" href="{% url 'hosts:host_create' %}">Add a listing</a>
+                  <a class="btn btn-primary" href="{% url 'hosts:host_create' %}">場所を登録</a>
                 </li>
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
